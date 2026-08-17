@@ -3,14 +3,179 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vidhya Collection Admin</title>
+<title>Vidhya Collection | Admin Panel</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#f8f5f2;display:flex;justify-content:center;align-items:center;height:100vh}
-.box{width:340px;background:#fff;padding:25px;border-radius:16px;box-shadow:0 5px 20px rgba(0,0,0,.15)}
-h2{text-align:center;color:#d63384;margin-bottom:20px}
-input{width:100%;padding:12px;margin:10px 0;border:1px solid #ccc;border-radius:8px}
-button{width:100%;padding:12px;background:#d63384;color:#fff;border:none;border-radius:8px;font-size:16px}
-p{text-align:center;color:#666;margin-top:12px}
-</style>
-</head
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#fff7fa,#ffe6ef);
+    color:#321923;
+    min-height:100vh;
+}
+
+.login{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.login-card{
+    width:100%;
+    max-width:390px;
+    background:white;
+    padding:35px 25px;
+    border-radius:24px;
+    box-shadow:0 15px 45px rgba(139,22,72,.15);
+    text-align:center;
+}
+
+.logo{
+    width:70px;
+    height:70px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#8b1648,#e879a2);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.login h1{
+    color:#8b1648;
+    margin:18px 0 5px;
+}
+
+.login p{
+    color:#888;
+    margin-bottom:25px;
+}
+
+input,select{
+    width:100%;
+    padding:14px;
+    border:1px solid #ead5de;
+    border-radius:12px;
+    outline:none;
+    margin-bottom:14px;
+    font-size:15px;
+    background:#fffafd;
+}
+
+input:focus,select:focus{
+    border-color:#d94b82;
+}
+
+.btn{
+    width:100%;
+    border:0;
+    padding:14px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#8b1648,#d94b82);
+    color:white;
+    font-size:15px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.error{
+    color:#d00045;
+    margin-top:12px;
+    font-size:14px;
+}
+
+.dashboard{
+    display:none;
+}
+
+.topbar{
+    background:white;
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+}
+
+.brand{
+    color:#8b1648;
+    font-weight:bold;
+    font-size:20px;
+}
+
+.logout{
+    background:#fff0f5;
+    color:#8b1648;
+    border:0;
+    padding:9px 15px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.container{
+    max-width:1100px;
+    margin:auto;
+    padding:25px 18px;
+}
+
+.welcome{
+    margin-bottom:22px;
+}
+
+.welcome h2{
+    color:#8b1648;
+    margin-bottom:5px;
+}
+
+.welcome p{
+    color:#777;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:white;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 5px 20px rgba(139,22,72,.08);
+}
+
+.stat-icon{
+    font-size:25px;
+}
+
+.stat h3{
+    margin-top:12px;
+    font-size:25px;
+    color:#8b1648;
+}
+
+.stat p{
+    color:#777;
+    font-size:13px;
+}
+
+.card{
+    background:white;
+    border-radius:20px;
+    padding:22px;
+    box-shadow:0 5px 20px rgba(139,22,72,.08);
+    margin-bottom:20px;
+}
+
+.card h3{
