@@ -117,7 +117,7 @@ font-weight:bold;
 <section class="section" id="shop">
 <h2 class="title">Best Sellers</h2>
 
-<div class="grid">
+<div class="grid" id="productGrid">
 
 <div class="card">
 <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=500">
@@ -153,6 +153,50 @@ font-weight:bold;
 </footer>
 
 <a class="whatsapp" href="https://wa.me/918319303760">WhatsApp</a>
+
+<script type="module">
+// Load live products from Firestore. If Firebase is not configured
+// or there are no products, the static "Best Sellers" cards remain.
+import { db, isConfigured } from "./firebase-config.js"
+import {
+  collection, getDocs, query, orderBy
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+
+if (isConfigured) {
+  ;(async () => {
+    try {
+      const ref = collection(db, "products")
+      let snap
+      try { snap = await getDocs(query(ref, orderBy("createdAt", "desc"))) }
+      catch (_) { snap = await getDocs(ref) }
+
+      const products = []
+      snap.forEach(d => products.push(d.data()))
+      if (!products.length) return
+
+      const grid = document.getElementById("productGrid")
+      grid.innerHTML = products.map(p => {
+        const soldOut = Number(p.stock) <= 0
+        const wa = "https://wa.me/918319303760?text=" +
+          encodeURIComponent("Hi! I'm interested in " + (p.name || "a product") + " (₹" + p.price + ")")
+        return `
+          <div class="card">
+            <img src="${p.imageUrl || ""}" alt="${p.name || "Product"}">
+            <div class="info">
+              <h3>${p.name || ""}</h3>
+              <div class="price">₹${p.price}</div>
+              ${soldOut
+                ? '<div style="color:#c62828;font-weight:bold;margin-top:6px">Out of stock</div>'
+                : '<a class="btn" style="margin-top:8px;padding:8px 18px;font-size:13px" href="' + wa + '">Enquire</a>'}
+            </div>
+          </div>`
+      }).join("")
+    } catch (err) {
+      console.log("[v0] storefront product load skipped:", err.message)
+    }
+  })()
+}
+</script>
 
 </body>
 </html>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vidhya Collection • Admin</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#FFF8FB;color:#222}
+
+/* ---------- shared ---------- */
+.hidden{display:none!important}
+.btn{
+  background:#E91E63;color:#fff;border:none;border-radius:30px;
+  padding:11px 26px;font-size:15px;font-weight:bold;cursor:pointer;
+}
+.btn:hover{background:#C2185B}
+.btn.secondary{background:#fff;color:#C2185B;border:1px solid #E91E63}
+.btn.danger{background:#fff;color:#c62828;border:1px solid #e57373}
+.btn.danger:hover{background:#c62828;color:#fff}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+
+/* ---------- login ---------- */
+#loginView{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.box{width:360px;max-width:100%;background:#fff;padding:32px 28px;border-radius:18px;box-shadow:0 8px 30px rgba(0,0,0,.12)}
+.box .logo{text-align:center;font-size:24px;font-weight:bold;color:#E91E63;letter-spacing:.5px}
+.box .sub{text-align:center;color:#888;margin:6px 0 22px;font-size:14px}
+.box label{display:block;font-size:13px;color:#555;margin:12px 0 4px}
+.box input{width:100%;padding:12px;border:1px solid #e0d4da;border-radius:10px;font-size:15px}
+.box input:focus{outline:none;border-color:#E91E63}
+.box .btn{width:100%;margin-top:20px}
+.msg{margin-top:14px;text-align:center;font-size:13px;min-height:18px}
+.msg.error{color:#c62828}
+.msg.info{color:#2e7d32}
+
+/* ---------- dashboard ---------- */
+#dashView{min-height:100vh}
+.topbar{
+  background:#fff;padding:15px 24px;display:flex;justify-content:space-between;
+  align-items:center;box-shadow:0 2px 10px rgba(0,0,0,.08);position:sticky;top:0;z-index:10
+}
+.topbar .logo{font-size:22px;font-weight:bold;color:#E91E63}
+.topbar .who{display:flex;align-items:center;gap:14px;font-size:13px;color:#666}
+.wrap{max-width:1100px;margin:auto;padding:32px 20px;display:grid;grid-template-columns:380px 1fr;gap:28px;align-items:start}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+
+.panel{background:#fff;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.06);padding:24px}
+.panel h2{color:#C2185B;font-size:19px;margin-bottom:6px}
+.panel .hint{color:#999;font-size:13px;margin-bottom:16px}
+
+form label{display:block;font-size:13px;color:#555;margin:14px 0 5px;font-weight:bold}
+form input[type=text],form input[type=number],form select,form textarea{
+  width:100%;padding:11px;border:1px solid #e0d4da;border-radius:10px;font-size:14px
+}
+form input:focus,form select:focus,form textarea:focus{outline:none;border-color:#E91E63}
+.row{display:flex;gap:12px}
+.row>div{flex:1}
+.preview{margin-top:10px;width:100%;height:160px;object-fit:cover;border-radius:12px;border:1px solid #f0e2e9;background:#faf3f7}
+.form-actions{display:flex;gap:10px;margin-top:22px}
+.form-actions .btn{flex:1}
+
+/* product list */
+.list-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}
+.pcard{background:#fff;border:1px solid #f2e6ec;border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.pcard img{width:100%;height:170px;object-fit:cover;background:#faf3f7}
+.pcard .body{padding:12px;flex:1;display:flex;flex-direction:column;gap:4px}
+.pcard h3{font-size:15px}
+.pcard .price{color:#E91E63;font-weight:bold}
+.pcard .meta{font-size:12px;color:#888;line-height:1.5}
+.pill{display:inline-block;background:#FDEef4;color:#C2185B;border-radius:20px;padding:2px 9px;font-size:11px;margin:2px 3px 0 0}
+.pcard .actions{display:flex;gap:8px;padding:0 12px 12px}
+.pcard .actions .btn{flex:1;padding:8px 0;font-size:13px}
+.empty{text-align:center;color:#aaa;padding:50px 0}
+.stock-out{color:#c62828;font-weight:bold}
+
+.banner{background:#fff3cd;color:#8a6d3b;border:1px solid #ffe08a;padding:14px 18px;border-radius:12px;margin:20px auto;max-width:1060px;font-size:14px;line-height:1.5}
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<section id="loginView">
+  <div class="box">
+    <div class="logo">VIDHYA COLLECTION</div>
+    <div class="sub">Admin Panel</div>
+    <form id="loginForm">
+      <label for="email">Email</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button class="btn" id="loginBtn" type="submit">Log In</button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= DASHBOARD ================= -->
+<section id="dashView" class="hidden">
+  <div class="topbar">
+    <div class="logo">VIDHYA COLLECTION</div>
+    <div class="who">
+      <span id="userEmail"></span>
+      <button class="btn secondary" id="logoutBtn">Log Out</button>
+    </div>
+  </div>
+
+  <div id="configBanner" class="banner hidden">
+    Firebase is not configured yet. Open <b>firebase-config.js</b> and paste your Firebase web config
+    and admin email to enable login and product management.
+  </div>
+
+  <div class="wrap">
+    <!-- form -->
+    <div class="panel">
+      <h2 id="formTitle">Add Product</h2>
+      <div class="hint">Fill in the details and save. Fields with * are required.</div>
+      <form id="productForm">
+        <input type="hidden" id="productId">
+
+        <label for="name">Product Name *</label>
+        <input id="name" type="text" required placeholder="Floral Top">
+
+        <div class="row">
+          <div>
+            <label for="price">Price (₹) *</label>
+            <input id="price" type="number" min="0" step="1" required placeholder="299">
+          </div>
+          <div>
+            <label for="stock">Stock *</label>
+            <input id="stock" type="number" min="0" step="1" required placeholder="10">
+          </div>
+        </div>
+
+        <label for="category">Category *</label>
+        <select id="category" required>
+          <option value="">Select category</option>
+          <option>Tops</option>
+          <option>Kurtis</option>
+          <option>Dresses</option>
+          <option>Sarees</option>
+          <option>Ethnic Wear</option>
+          <option>Western Wear</option>
+          <option>Accessories</option>
+        </select>
+
+        <label for="sizes">Sizes (comma separated)</label>
+        <input id="sizes" type="text" placeholder="S, M, L, XL">
+
+        <label for="colors">Colors (comma separated)</label>
+        <input id="colors" type="text" placeholder="Red, Pink, Blue">
+
+        <label for="image">Product Image</label>
+        <input id="image" type="file" accept="image/*">
+        <img id="preview" class="preview hidden" alt="Product image preview">
+
+        <div class="form-actions">
+          <button class="btn" id="saveBtn" type="submit">Save Product</button>
+          <button class="btn secondary hidden" id="cancelEdit" type="button">Cancel</button>
+        </div>
+        <div class="msg" id="formMsg"></div>
+      </form>
+    </div>
+
+    <!-- list -->
+    <div class="panel">
+      <div class="list-head">
+        <h2>Products</h2>
+        <span class="hint" id="count"></span>
+      </div>
+      <div id="productGrid" class="grid"></div>
+      <div id="emptyState" class="empty hidden">No products yet. Add your first product on the left.</div>
+    </div>
+  </div>
+</section>
+
+<script type="module">
+import { auth, db, storage, ADMIN_EMAILS, isConfigured } from "../firebase-config.js"
+import {
+  signInWithEmailAndPassword, signOut, onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"
+import {
+  collection, addDoc, updateDoc, deleteDoc, doc, getDocs,
+  query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+import {
+  ref, uploadBytes, getDownloadURL, deleteObject
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js"
+
+const $ = (id) => document.getElementById(id)
+
+// views
+const loginView = $("loginView")
+const dashView = $("dashView")
+
+// ---------- helpers ----------
+function showMsg(el, text, type){ el.textContent = text; el.className = "msg " + (type||"") }
+function isAdmin(email){ return ADMIN_EMAILS.map(e=>e.toLowerCase()).includes((email||"").toLowerCase()) }
+
+// ---------- auth guard ----------
+onAuthStateChanged(auth, (user) => {
+  if (user && isAdmin(user.email)) {
+    loginView.classList.add("hidden")
+    dashView.classList.remove("hidden")
+    $("userEmail").textContent = user.email
+    if (!isConfigured) $("configBanner").classList.remove("hidden")
+    loadProducts()
+  } else {
+    if (user && !isAdmin(user.email)) {
+      // Authenticated but not an allowed admin — kick out.
+      signOut(auth)
+      showMsg($("loginMsg"), "This account is not authorized for admin access.", "error")
+    }
+    dashView.classList.add("hidden")
+    loginView.classList.remove("hidden")
+  }
+})
+
+// ---------- login ----------
+$("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault()
+  if (!isConfigured) {
+    showMsg($("loginMsg"), "Firebase is not configured. Edit firebase-config.js first.", "error")
+    return
+  }
+  const btn = $("loginBtn")
+  btn.disabled = true
+  showMsg($("loginMsg"), "Signing in...", "info")
+  try {
+    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value)
+    // onAuthStateChanged handles the rest
+  } catch (err) {
+    const map = {
+      "auth/invalid-credential": "Invalid email or password.",
+      "auth/invalid-email": "Please enter a valid email.",
+      "auth/user-not-found": "No account found for this email.",
+      "auth/wrong-password": "Incorrect password.",
+      "auth/too-many-requests": "Too many attempts. Try again later.",
+    }
+    showMsg($("loginMsg"), map[err.code] || ("Login failed: " + err.message), "error")
+  } finally {
+    btn.disabled = false
+  }
+})
+
+$("logoutBtn").addEventListener("click", () => signOut(auth))
+
+// ---------- image preview ----------
+let selectedFile = null
+$("image").addEventListener("change", (e) => {
+  selectedFile = e.target.files[0] || null
+  const p = $("preview")
+  if (selectedFile) {
+    p.src = URL.createObjectURL(selectedFile)
+    p.classList.remove("hidden")
+  } else {
+    p.classList.add("hidden")
+  }
+})
+
+// ---------- product form ----------
+const productsRef = collection(db, "products")
+let editingImageUrl = ""   // existing image when editing
+let editingImagePath = ""  // storage path when editing
+
+function csvToArr(v){ return (v||"").split(",").map(s=>s.trim()).filter(Boolean) }
+
+$("productForm").addEventListener("submit", async (e) => {
+  e.preventDefault()
+  if (!isConfigured) { showMsg($("formMsg"), "Configure Firebase first.", "error"); return }
+  const btn = $("saveBtn")
+  btn.disabled = true
+  showMsg($("formMsg"), "Saving...", "info")
+
+  try {
+    let imageUrl = editingImageUrl
+    let imagePath = editingImagePath
+
+    if (selectedFile) {
+      const path = "products/" + Date.now() + "_" + selectedFile.name.replace(/\s+/g, "_")
+      const storageRef = ref(storage, path)
+      await uploadBytes(storageRef, selectedFile)
+      imageUrl = await getDownloadURL(storageRef)
+      // remove old image if replacing during edit
+      if (editingImagePath) { try { await deleteObject(ref(storage, editingImagePath)) } catch(_){} }
+      imagePath = path
+    }
+
+    const data = {
+      name: $("name").value.trim(),
+      price: Number($("price").value),
+      stock: Number($("stock").value),
+      category: $("category").value,
+      sizes: csvToArr($("sizes").value),
+      colors: csvToArr($("colors").value),
+      imageUrl,
+      imagePath,
+      updatedAt: serverTimestamp(),
+    }
+
+    const id = $("productId").value
+    if (id) {
+      await updateDoc(doc(db, "products", id), data)
+      showMsg($("formMsg"), "Product updated.", "info")
+    } else {
+      data.createdAt = serverTimestamp()
+      await addDoc(productsRef, data)
+      showMsg($("formMsg"), "Product added.", "info")
+    }
+    resetForm()
+    loadProducts()
+  } catch (err) {
+    showMsg($("formMsg"), "Error: " + err.message, "error")
+  } finally {
+    btn.disabled = false
+  }
+})
+
+function resetForm(){
+  $("productForm").reset()
+  $("productId").value = ""
+  selectedFile = null
+  editingImageUrl = ""
+  editingImagePath = ""
+  $("preview").classList.add("hidden")
+  $("preview").src = ""
+  $("formTitle").textContent = "Add Product"
+  $("saveBtn").textContent = "Save Product"
+  $("cancelEdit").classList.add("hidden")
+}
+$("cancelEdit").addEventListener("click", () => { resetForm(); showMsg($("formMsg"), "", "") })
+
+// ---------- load + render ----------
+async function loadProducts(){
+  const grid = $("productGrid")
+  const empty = $("emptyState")
+  grid.innerHTML = ""
+  if (!isConfigured) { empty.classList.remove("hidden"); empty.textContent = "Configure Firebase to manage products."; $("count").textContent=""; return }
+
+  let snap
+  try {
+    snap = await getDocs(query(productsRef, orderBy("createdAt", "desc")))
+  } catch (_) {
+    snap = await getDocs(productsRef)
+  }
+
+  const products = []
+  snap.forEach(d => products.push({ id: d.id, ...d.data() }))
+  $("count").textContent = products.length + " item" + (products.length === 1 ? "" : "s")
+
+  if (!products.length) { empty.classList.remove("hidden"); empty.textContent = "No products yet. Add your first product on the left."; return }
+  empty.classList.add("hidden")
+
+  for (const p of products) {
+    const card = document.createElement("div")
+    card.className = "pcard"
+    const sizes = (p.sizes||[]).map(s=>`<span class="pill">${s}</span>`).join("")
+    const colors = (p.colors||[]).map(c=>`<span class="pill">${c}</span>`).join("")
+    const stockLabel = Number(p.stock) > 0 ? (p.stock + " in stock") : `<span class="stock-out">Out of stock</span>`
+    card.innerHTML = `
+      <img src="${p.imageUrl || "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'%3E%3C/svg%3E"}" alt="${p.name}">
+      <div class="body">
+        <h3>${p.name}</h3>
+        <div class="price">₹${p.price}</div>
+        <div class="meta">${p.category || ""} • ${stockLabel}</div>
+        <div>${sizes}${colors}</div>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" data-edit="${p.id}">Edit</button>
+        <button class="btn danger" data-del="${p.id}" data-path="${p.imagePath||""}">Delete</button>
+      </div>`
+    grid.appendChild(card)
+  }
+
+  grid.querySelectorAll("[data-edit]").forEach(b =>
+    b.addEventListener("click", () => startEdit(b.getAttribute("data-edit"), products)))
+  grid.querySelectorAll("[data-del]").forEach(b =>
+    b.addEventListener("click", () => removeProduct(b.getAttribute("data-del"), b.getAttribute("data-path"))))
+}
+
+function startEdit(id, products){
+  const p = products.find(x => x.id === id)
+  if (!p) return
+  $("productId").value = p.id
+  $("name").value = p.name || ""
+  $("price").value = p.price ?? ""
+  $("stock").value = p.stock ?? ""
+  $("category").value = p.category || ""
+  $("sizes").value = (p.sizes||[]).join(", ")
+  $("colors").value = (p.colors||[]).join(", ")
+  editingImageUrl = p.imageUrl || ""
+  editingImagePath = p.imagePath || ""
+  selectedFile = null
+  const pv = $("preview")
+  if (p.imageUrl) { pv.src = p.imageUrl; pv.classList.remove("hidden") } else { pv.classList.add("hidden") }
+  $("formTitle").textContent = "Edit Product"
+  $("saveBtn").textContent = "Update Product"
+  $("cancelEdit").classList.remove("hidden")
+  window.scrollTo({ top: 0, behavior: "smooth" })
+}
+
+async function removeProduct(id, path){
+  if (!confirm("Delete this product? This cannot be undone.")) return
+  try {
+    await deleteDoc(doc(db, "products", id))
+    if (path) { try { await deleteObject(ref(storage, path)) } catch(_){} }
+    loadProducts()
+  } catch (err) {
+    alert("Error deleting: " + err.message)
+  }
+}
+</script>
+</body>
+</html>
