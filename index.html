@@ -3,13 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Vidhya Collection | Women's Fashion</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
 
 body{
-    font-family:Arial, sans-serif;
+    font-family:Arial,sans-serif;
     background:#fff7fa;
     color:#2b1821;
 }
@@ -17,7 +26,7 @@ body{
 header{
     background:linear-gradient(135deg,#8b1648,#d94b82);
     color:white;
-    padding:20px;
+    padding:22px 15px;
     text-align:center;
 }
 
@@ -28,31 +37,31 @@ header{
 }
 
 .tagline{
-    margin-top:6px;
+    margin-top:7px;
     font-size:14px;
 }
 
 nav{
     background:white;
-    padding:12px;
+    padding:13px 8px;
     text-align:center;
     box-shadow:0 2px 8px #ddd;
     position:sticky;
     top:0;
-    z-index:10;
+    z-index:100;
 }
 
 nav a{
     color:#8b1648;
     text-decoration:none;
-    margin:0 10px;
+    margin:0 8px;
     font-weight:bold;
     font-size:14px;
 }
 
 .hero{
     text-align:center;
-    padding:55px 20px;
+    padding:60px 20px;
     background:linear-gradient(180deg,#ffe3ed,#fff7fa);
 }
 
@@ -64,21 +73,23 @@ nav a{
 
 .hero p{
     font-size:17px;
-    margin-bottom:22px;
+    line-height:1.6;
+    margin-bottom:24px;
 }
 
 .btn{
     display:inline-block;
     background:#8b1648;
     color:white;
-    padding:13px 25px;
+    padding:13px 24px;
     border-radius:25px;
     text-decoration:none;
     font-weight:bold;
+    border:none;
 }
 
 .section{
-    padding:35px 18px;
+    padding:40px 18px;
     max-width:1100px;
     margin:auto;
 }
@@ -93,36 +104,38 @@ nav a{
 .categories{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:15px;
+    gap:14px;
 }
 
 .category{
     background:white;
-    padding:25px 10px;
+    padding:22px 10px;
     text-align:center;
     border-radius:15px;
     box-shadow:0 3px 12px #ead9df;
     font-weight:bold;
     color:#8b1648;
+    text-decoration:none;
 }
 
 .products{
     display:grid;
     grid-template-columns:repeat(2,1fr);
-    gap:15px;
+    gap:16px;
 }
 
 .product{
     background:white;
-    border-radius:15px;
+    border-radius:16px;
     overflow:hidden;
     box-shadow:0 3px 12px #ead9df;
     text-align:center;
     padding-bottom:18px;
 }
 
-.product .photo{
-    height:170px;
+.photo{
+    width:100%;
+    height:210px;
     background:linear-gradient(135deg,#f7c5d7,#ffeef4);
     display:flex;
     align-items:center;
@@ -130,16 +143,65 @@ nav a{
     color:#8b1648;
     font-size:18px;
     font-weight:bold;
+    overflow:hidden;
+}
+
+.photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
 .product h3{
-    margin:14px 5px 6px;
+    margin:15px 6px 7px;
+    font-size:17px;
 }
 
 .price{
     color:#d12d6b;
     font-weight:bold;
-    margin-bottom:12px;
+    font-size:17px;
+    margin-bottom:13px;
+}
+
+.order-btn{
+    display:inline-block;
+    background:#25D366;
+    color:white;
+    padding:10px 18px;
+    border-radius:22px;
+    text-decoration:none;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.contact-box{
+    text-align:center;
+    background:white;
+    padding:30px 18px;
+    border-radius:20px;
+    box-shadow:0 3px 15px #ead9df;
+}
+
+.contact-box p{
+    line-height:1.7;
+    color:#666;
+    margin-bottom:20px;
+}
+
+.contact-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+}
+
+.whatsapp{
+    background:#25D366;
+}
+
+.instagram{
+    background:#8b1648;
 }
 
 footer{
@@ -150,20 +212,40 @@ footer{
     margin-top:20px;
 }
 
-.instagram{
-    display:inline-block;
-    margin-top:15px;
-    background:#fff;
-    color:#8b1648;
-    padding:11px 20px;
-    border-radius:25px;
-    text-decoration:none;
-    font-weight:bold;
+footer p{
+    margin-top:8px;
 }
 
 @media(min-width:700px){
-    .categories{grid-template-columns:repeat(5,1fr)}
-    .products{grid-template-columns:repeat(4,1fr)}
+
+    .categories{
+        grid-template-columns:repeat(6,1fr);
+    }
+
+    .products{
+        grid-template-columns:repeat(4,1fr);
+    }
+
+    .contact-buttons{
+        flex-direction:row;
+        justify-content:center;
+    }
+}
+
+@media(max-width:380px){
+
+    .hero h1{
+        font-size:30px;
+    }
+
+    .logo{
+        font-size:25px;
+    }
+
+    nav a{
+        margin:0 5px;
+        font-size:13px;
+    }
 }
 </style>
 </head>
@@ -171,99 +253,310 @@ footer{
 <body>
 
 <header>
-    <div class="logo">VIDHYA COLLECTION</div>
-    <div class="tagline">Elegant Fashion • Beautiful You</div>
+
+    <div class="logo">
+        VIDHYA COLLECTION
+    </div>
+
+    <div class="tagline">
+        Elegant Fashion • Beautiful You
+    </div>
+
 </header>
 
+
 <nav>
+
     <a href="#home">Home</a>
     <a href="#categories">Categories</a>
     <a href="#collection">Collection</a>
     <a href="#contact">Contact</a>
+
 </nav>
 
+
 <section class="hero" id="home">
-    <h1>Fashion That Feels Like You</h1>
-    <p>Discover stylish women's fashion at Vidhya Collection.</p>
-    <a class="btn" href="#collection">Explore Collection</a>
+
+    <h1>
+        Fashion That Feels Like You
+    </h1>
+
+    <p>
+        Discover stylish women's fashion<br>
+        at Vidhya Collection.
+    </p>
+
+    <a class="btn" href="#collection">
+        Explore Collection
+    </a>
+
 </section>
+
 
 <section class="section" id="categories">
-    <h2>Shop By Category</h2>
+
+    <h2>
+        Shop By Category
+    </h2>
 
     <div class="categories">
-        <div class="category">Tops</div>
-        <div class="category">Sarees</div>
-        <div class="category">Kurtis</div>
-        <div class="category">Jeans</div>
-        <div class="category">One Piece</div>
-        <div class="category">Indo-Western</div>
+
+        <a class="category" href="#collection">
+            Tops
+        </a>
+
+        <a class="category" href="#collection">
+            Kurtis
+        </a>
+
+        <a class="category" href="#collection">
+            Sarees
+        </a>
+
+        <a class="category" href="#collection">
+            Jeans
+        </a>
+
+        <a class="category" href="#collection">
+            One Piece
+        </a>
+
+        <a class="category" href="#collection">
+            Indo-Western
+        </a>
+
     </div>
+
 </section>
 
+
 <section class="section" id="collection">
-    <h2>Our Collection</h2>
+
+    <h2>
+        Our Collection
+    </h2>
 
     <div class="products">
 
-        <div class="product">
-            <div class="photo">TOPS</div>
-            <h3>Trendy Tops</h3>
-            <div class="price">Starting ₹299</div>
-            <a class="btn" href="#contact">Enquire</a>
-        </div>
+
+        <!-- PRODUCT 1 -->
 
         <div class="product">
-            <div class="photo">KURTIS</div>
-            <h3>Stylish Kurtis</h3>
-            <div class="price">Starting ₹499</div>
-            <a class="btn" href="#contact">Enquire</a>
+
+            <div class="photo">
+                TOPS
+            </div>
+
+            <h3>
+                Trendy Tops
+            </h3>
+
+            <div class="price">
+                Starting ₹299
+            </div>
+
+            <a
+                class="order-btn"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20order%20Trendy%20Tops."
+                target="_blank"
+            >
+                💬 Order on WhatsApp
+            </a>
+
         </div>
 
-        <div class="product">
-            <div class="photo">JEANS</div>
-            <h3>Denim Collection</h3>
-            <div class="price">Starting ₹499</div>
-            <a class="btn" href="#contact">Enquire</a>
-        </div>
+
+        <!-- PRODUCT 2 -->
 
         <div class="product">
-            <div class="photo">DRESSES</div>
-            <h3>One Piece Dresses</h3>
-            <div class="price">Starting ₹499</div>
-            <a class="btn" href="#contact">Enquire</a>
+
+            <div class="photo">
+                KURTIS
+            </div>
+
+            <h3>
+                Stylish Kurtis
+            </h3>
+
+            <div class="price">
+                Starting ₹499
+            </div>
+
+            <a
+                class="order-btn"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20order%20Stylish%20Kurtis."
+                target="_blank"
+            >
+                💬 Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- PRODUCT 3 -->
+
+        <div class="product">
+
+            <div class="photo">
+                SAREES
+            </div>
+
+            <h3>
+                Beautiful Sarees
+            </h3>
+
+            <div class="price">
+                Starting ₹499
+            </div>
+
+            <a
+                class="order-btn"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20order%20a%20Saree."
+                target="_blank"
+            >
+                💬 Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- PRODUCT 4 -->
+
+        <div class="product">
+
+            <div class="photo">
+                JEANS
+            </div>
+
+            <h3>
+                Denim Collection
+            </h3>
+
+            <div class="price">
+                Starting ₹499
+            </div>
+
+            <a
+                class="order-btn"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20order%20Denim%20Collection."
+                target="_blank"
+            >
+                💬 Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- PRODUCT 5 -->
+
+        <div class="product">
+
+            <div class="photo">
+                ONE PIECE
+            </div>
+
+            <h3>
+                One Piece Dresses
+            </h3>
+
+            <div class="price">
+                Starting ₹499
+            </div>
+
+            <a
+                class="order-btn"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20order%20a%20One%20Piece%20Dress."
+                target="_blank"
+            >
+                💬 Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- PRODUCT 6 -->
+
+        <div class="product">
+
+            <div class="photo">
+                INDO-WESTERN
+            </div>
+
+            <h3>
+                Indo-Western
+            </h3>
+
+            <div class="price">
+                Starting ₹499
+            </div>
+
+            <a
+                class="order-btn"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20order%20an%20Indo-Western%20outfit."
+                target="_blank"
+            >
+                💬 Order on WhatsApp
+            </a>
+
         </div>
 
     </div>
+
 </section>
+
 
 <section class="section" id="contact">
-    <h2>Visit Vidhya Collection</h2>
 
-    <p style="text-align:center">
-        Follow us on Instagram for new arrivals, offers and latest designs.
-    </p>
+    <div class="contact-box">
 
-    <div style="text-align:center">
-        <a class="instagram" href="https://instagram.com/vidhya__collection" target="_blank">
-          <br><br>
+        <h2>
+            Visit Vidhya Collection
+        </h2>
 
-<a class="btn" href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20know%20about%20your%20collection." target="_blank">
-     💬 Order / Enquire on WhatsApp
-</a>
-            
-<div style="height:12px;"></div>            
-            <a class="btn" href="https://www.instagram.com/vidhya__collection/" target="_blank">
-    📸 Visit Instagram
+        <p>
+            Follow us for new arrivals, latest designs
+            and special offers.
+        </p>
+
+        <div class="contact-buttons">
+
+            <a
+                class="btn whatsapp"
+                href="https://wa.me/918319305718?text=Hello%20Vidhya%20Collection,%20I%20want%20to%20know%20about%20your%20collection."
+                target="_blank"
+            >
+                💬 WhatsApp
             </a>
-        </a>
+
+            <a
+                class="btn instagram"
+                href="https://www.instagram.com/vidhya__collection/"
+                target="_blank"
+            >
+                📸 Instagram
+            </a>
+
+        </div>
+
     </div>
+
 </section>
 
+
 <footer>
-    <h3>VIDHYA COLLECTION</h3>
-    <p style="margin-top:8px">Women's Fashion & Lifestyle</p>
-    <p style="margin-top:15px">© 2026 Vidhya Collection. All Rights Reserved.</p>
+
+    <h3>
+        VIDHYA COLLECTION
+    </h3>
+
+    <p>
+        Women's Fashion & Lifestyle
+    </p>
+
+    <p>
+        © 2026 Vidhya Collection. All Rights Reserved.
+    </p>
+
 </footer>
 
 </body>
