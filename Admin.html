@@ -251,55 +251,58 @@ button{
 
     <div class="card">
 
-      <h3>➕ Add New Product</h3>
+  <h3>➕ Add New Product</h3>
 
-      <input
-        id="productName"
-        type="text"
-        placeholder="Product Name"
-      >
+  <label>Product Name</label>
+  <input
+    id="productName"
+    type="text"
+    placeholder="Enter product name"
+  >
 
-      <select id="category">
+  <label>Category</label>
+  <select id="category">
+    <option value="">Select Category</option>
+    <option value="Tops">Tops</option>
+    <option value="Kurtis">Kurtis</option>
+    <option value="Sarees">Sarees</option>
+    <option value="Jeans">Jeans</option>
+    <option value="One Piece">One Piece</option>
+    <option value="Indo-Western">Indo-Western</option>
+  </select>
 
-        <option value="Tops">Tops</option>
-        <option value="Kurtis">Kurtis</option>
-        <option value="Sarees">Sarees</option>
-        <option value="Jeans">Jeans</option>
-        <option value="One Piece">One Piece</option>
-        <option value="Indo-Western">Indo-Western</option>
+  <label>Price</label>
+  <input
+    id="productPrice"
+    type="number"
+    placeholder="Enter price ₹"
+  >
 
-      </select>
+  <label>Image URL</label>
+  <input
+    id="productImage"
+    type="url"
+    placeholder="Paste product image URL"
+  >
 
-      <input
-        id="productPrice"
-        type="number"
-        placeholder="Price ₹"
-      >
+  <label style="display:flex;align-items:center;gap:8px;margin:8px 0 18px;">
+    <input
+      id="newArrival"
+      type="checkbox"
+      style="width:auto;margin:0;"
+    >
+    New Arrival 🔥
+  </label>
 
-      <input
-        id="productImage"
-        type="text"
-        placeholder="Image URL"
-      >
+  <button type="button" onclick="addProduct()">
+    Add Product
+  </button>
 
-      <label style="display:block;margin:5px 0 15px">
-        <input
-          id="newArrival"
-          type="checkbox"
-          style="width:auto;margin-right:8px"
-        >
-        Mark as New Arrival 🔥
-      </label>
+  <div class="message success" id="success">
+    Product added successfully ✅
+  </div>
 
-      <button onclick="addProduct()">
-        Add Product
-      </button>
-
-      <div class="message success" id="success">
-        Product added successfully ✅
-      </div>
-
-      <div class="message fail" id="fail"></div>
+  <div class="message fail" id="fail"></div>
 
     </div>
 
@@ -376,70 +379,86 @@ async function logout(){
 }
 
 
-async function addProduct(){
+async function addProduct() {
 
-  const name =
-    document.getElementById("productName").value.trim();
+  const name = document
+    .getElementById("productName")
+    .value
+    .trim();
 
-  const category =
-    document.getElementById("category").value;
+  const category = document
+    .getElementById("category")
+    .value;
 
-  const price =
-    Number(document.getElementById("productPrice").value);
+  const price = Number(
+    document.getElementById("productPrice").value
+  );
 
-  const image =
-    document.getElementById("productImage").value.trim();
+  const image = document
+    .getElementById("productImage")
+    .value
+    .trim();
 
-  const new_arrival =
-    document.getElementById("newArrival").checked;
+  const new_arrival = document
+    .getElementById("newArrival")
+    .checked;
 
 
-  if(!name || !price){
+  if (!name) {
+    alert("Product name enter karo.");
+    return;
+  }
 
-    alert("Product name aur price bharna zaroori hai.");
+  if (!category) {
+    alert("Category select karo.");
+    return;
+  }
 
+  if (!price || price <= 0) {
+    alert("Valid price enter karo.");
     return;
   }
 
 
-  const {error} =
-    await supabaseClient
+  const { data, error } = await supabaseClient
     .from("products")
-    .insert([
-      {
-        name:name,
-        category:category,
-        price:price,
-        image:image,
-        new_arrival:new_arrival
-      }
-    ]);
+    .insert({
+      name: name,
+      category: category,
+      price: price,
+      image: image,
+      new_arrival: new_arrival
+    })
+    .select();
 
 
-  if(error){
+  if (error) {
+
+    document.getElementById("success").style.display = "none";
 
     document.getElementById("fail").innerText =
       "Error: " + error.message;
 
-    document.getElementById("fail").style.display="block";
+    document.getElementById("fail").style.display = "block";
 
     return;
   }
 
 
-  document.getElementById("success").style.display="block";
+  document.getElementById("fail").style.display = "none";
 
-  document.getElementById("fail").style.display="none";
+  document.getElementById("success").style.display = "block";
 
-  document.getElementById("productName").value="";
 
-  document.getElementById("productPrice").value="";
+  document.getElementById("productName").value = "";
+  document.getElementById("category").value = "";
+  document.getElementById("productPrice").value = "";
+  document.getElementById("productImage").value = "";
+  document.getElementById("newArrival").checked = false;
 
-  document.getElementById("productImage").value="";
-
-  document.getElementById("newArrival").checked=false;
 
   loadProducts();
+
 }
 
 
