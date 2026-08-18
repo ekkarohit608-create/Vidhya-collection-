@@ -404,7 +404,7 @@ async function addProduct(){
 
   const {error} =
     await supabaseClient
-    .from("Products")
+    .from("products")
     .insert([
       {
         name:name,
@@ -447,7 +447,7 @@ async function loadProducts(){
 
   const {data,error} =
     await supabaseClient
-    .from("Products")
+    .from("products")
     .select("*");
 
 
